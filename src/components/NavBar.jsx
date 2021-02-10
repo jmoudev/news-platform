@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import * as api from '../api';
 import { Link } from '@reach/router';
 
 export default class NavBar extends Component {
   state = {};
 
   componentDidMount() {
-    this.fetchTopics();
+    api.fetchTopics().then(topics => {
+      this.setState({ topics });
+    });
   }
 
   render() {
@@ -28,18 +30,5 @@ export default class NavBar extends Component {
         )}
       </nav>
     );
-  }
-
-  fetchTopics() {
-    return axios
-      .get('https://news-platform.herokuapp.com/api/topics')
-      .then(({ data: { topics } }) => {
-        const topicsArr = topics.map(topic => topic.slug);
-
-        return topicsArr;
-      })
-      .then(topics => {
-        this.setState({ topics });
-      });
   }
 }

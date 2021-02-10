@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { Component } from 'react';
 import Comment from './Comment';
 import * as api from '../api';

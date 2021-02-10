@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import ArticleCard from './ArticleCard';
+import * as api from '../api';
 
 export default class ArticleList extends Component {
   state = {
@@ -10,7 +10,9 @@ export default class ArticleList extends Component {
   componentDidMount() {
     const { topic } = this.props;
 
-    this.fetchArticles(topic);
+    api.fetchArticles(topic).then(articles => {
+      this.setState({ articles });
+    });
   }
 
   // genre is updated in state by router props
@@ -18,7 +20,9 @@ export default class ArticleList extends Component {
     const { topic } = this.props;
 
     if (this.props !== prevProps) {
-      this.fetchArticles(topic);
+      api.fetchArticles(topic).then(articles => {
+        this.setState({ articles });
+      });
     }
   }
 
@@ -42,17 +46,5 @@ export default class ArticleList extends Component {
         )}
       </main>
     );
-  }
-
-  fetchArticles(topic) {
-    return axios
-      .get('https://news-platform.herokuapp.com/api/articles')
-      .then(({ data: { articles } }) => {
-        if (topic) return articles.filter(article => article.topic === topic);
-        else return articles;
-      })
-      .then(articles => {
-        this.setState({ articles });
-      });
   }
 }
