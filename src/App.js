@@ -2,7 +2,7 @@ import './App.css';
 import Header from './components/Header';
 import NavBar from './components/NavBar';
 import ArticleList from './components/ArticleList';
-import TopicArticles from './components/TopicArticles';
+import Article from './components/Article';
 import { Router } from '@reach/router';
 
 function App() {
@@ -12,7 +12,8 @@ function App() {
       <NavBar />
       <Router>
         <ArticleList path="/" />
-        <TopicArticles path="/:topic" />
+        <ArticleList path="topics/:topic" />
+        <Article path="/articles/:article_id" />
       </Router>
     </div>
   );
