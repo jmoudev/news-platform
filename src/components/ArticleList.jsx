@@ -4,14 +4,15 @@ import * as api from '../api';
 
 export default class ArticleList extends Component {
   state = {
-    articles: []
+    articles: [],
+    isLoading: true
   };
 
   componentDidMount() {
     const { topic } = this.props;
 
-    api.fetchArticles(topic).then(articles => {
-      this.setState({ articles });
+    api.getAllArticles(topic).then(articles => {
+      this.setState({ articles, isLoading: false });
     });
   }
 
@@ -20,18 +21,20 @@ export default class ArticleList extends Component {
     const { topic } = this.props;
 
     if (this.props !== prevProps) {
-      api.fetchArticles(topic).then(articles => {
+      api.getAllArticles(topic).then(articles => {
         this.setState({ articles });
       });
     }
   }
 
   render() {
-    const { articles } = this.state;
+    const { articles, isLoading } = this.state;
 
     return (
       <main className="article-list">
-        {articles ? (
+        {isLoading ? (
+          <p>loading...</p>
+        ) : (
           articles.map(article => {
             return (
               <ArticleCard
@@ -41,8 +44,6 @@ export default class ArticleList extends Component {
               />
             );
           })
-        ) : (
-          <p>no articles</p>
         )}
       </main>
     );

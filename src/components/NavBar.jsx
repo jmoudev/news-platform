@@ -3,21 +3,26 @@ import * as api from '../api';
 import { Link } from '@reach/router';
 
 export default class NavBar extends Component {
-  state = {};
+  state = {
+    topics: [],
+    isLoading: true
+  };
 
   componentDidMount() {
-    api.fetchTopics().then(topics => {
-      this.setState({ topics });
+    api.getTopics().then(topics => {
+      this.setState({ topics, isLoading: false });
     });
   }
 
   render() {
-    const { topics } = this.state;
+    const { topics, isLoading } = this.state;
 
     return (
       <nav className="nav">
         <Link to="/">All</Link>
-        {topics ? (
+        {isLoading ? (
+          <p>loading...</p>
+        ) : (
           topics.map((topic, index) => {
             return (
               <Link key={index} to={`/topics/${topic}`}>
@@ -25,8 +30,6 @@ export default class NavBar extends Component {
               </Link>
             );
           })
-        ) : (
-          <p>loading...</p>
         )}
       </nav>
     );
