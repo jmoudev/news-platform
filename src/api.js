@@ -13,10 +13,13 @@ export const getTopics = () => {
 };
 
 export const getAllArticles = topic => {
-  return request.get('/articles').then(({ data: { articles } }) => {
-    if (topic) return articles.filter(article => article.topic === topic);
-    else return articles;
-  });
+  return request
+    .get('/articles', {
+      params: {
+        topic
+      }
+    })
+    .then(({ data: { articles } }) => articles);
 };
 
 export const getArticle = article_id => {
@@ -33,6 +36,12 @@ export const getArticleComments = article_id => {
 
 export const patchArticleVotes = (article_id, vote) => {
   return request.patch(`/articles/${article_id}`, {
+    inc_votes: vote
+  });
+};
+
+export const patchCommentVotes = (comment_id, vote) => {
+  return request.patch(`/comments/${comment_id}`, {
     inc_votes: vote
   });
 };

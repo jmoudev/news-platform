@@ -8,18 +8,23 @@ export default class Article extends Component {
     article: {},
     comments: [],
     votesChange: 0,
-    isLoading: { article: true, comments: true }
+    isLoading: true,
+    errorMsg: ''
   };
 
   componentDidMount() {
     const { article_id } = this.props;
 
-    api.getArticle(article_id).then(article => {
-      this.setState({ article, isLoading: { article: false } });
-    });
-    api.getArticleComments(article_id).then(comments => {
-      this.setState({ comments, isLoading: { comments: false } });
-    });
+    api
+      .getArticle(article_id)
+      .then(article => {
+        api.getArticleComments(article_id).then(comments => {
+          this.setState({ article, comments, isLoading: false });
+        });
+      })
+      .catch(({ request: { status, statusText } }) => {
+        this.setState({ errorMsg: `Error ${status}: ${statusText}` });
+      });
   }
 
   render() {
@@ -32,16 +37,17 @@ export default class Article extends Component {
       body,
       votes
     } = this.state.article;
-    const { comments, votesChange, isLoading } = this.state;
+    const { comments, votesChange, isLoading, errorMsg } = this.state;
     let articleTimestamp;
 
     if (isLoading) {
       articleTimestamp = utils.convertPSQLTimestamp(created_at);
     }
+    if (errorMsg) return <h2>{errorMsg}</h2>;
 
     return (
       <main>
-        {isLoading.article ? (
+        {isLoading ? (
           <p></p>
         ) : (
           <section>
@@ -56,7 +62,7 @@ export default class Article extends Component {
             <p>{body}</p>
           </section>
         )}
-        {isLoading.comments ? (
+        {isLoading ? (
           <p>loading...</p>
         ) : (
           <section>
