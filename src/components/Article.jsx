@@ -3,6 +3,10 @@ import Comment from './Comment';
 import * as api from '../api';
 import * as utils from '../utils';
 import axios from 'axios';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowUpwardTwoToneIcon from '@material-ui/icons/ArrowUpwardTwoTone';
+import ArrowDownwardTwoToneIcon from '@material-ui/icons/ArrowDownwardTwoTone';
 
 export default class Article extends Component {
   state = {
@@ -52,14 +56,25 @@ export default class Article extends Component {
           <p></p>
         ) : (
           <section>
-            <h1>{title}</h1>
-            <h2>{topic}</h2>
-            <h3>{`author: ${author}, posted: ${articleTimestamp}, comments: ${comment_count}`}</h3>
-            <div className="voting-buttons">
-              <button onClick={() => this.handleClick(1)}>upvote</button>
-              <h3 className="voting-counter">{votes + votesChange}</h3>
-              <button onClick={() => this.handleClick(-1)}>downvote</button>
-            </div>
+            <Typography variant="h1" style={{ fontSize: 40 }}>
+              {title}
+            </Typography>
+            <Typography variant="h2" style={{ fontSize: 26 }}>
+              {topic}
+            </Typography>
+            <Typography
+              variant="h3"
+              style={{ fontSize: 20 }}
+            >{`author: ${author}, posted: ${articleTimestamp}, comments: ${comment_count}`}</Typography>
+            <IconButton>
+              <ArrowUpwardTwoToneIcon color="primary" />
+            </IconButton>
+            <IconButton>
+              <ArrowDownwardTwoToneIcon color="secondary" />
+            </IconButton>
+            <button onClick={() => this.handleClick(1)}>upvote</button>
+            <Typography variant="h3">{votes + votesChange}</Typography>
+            <button onClick={() => this.handleClick(-1)}>downvote</button>
             <p>{body}</p>
           </section>
         )}
