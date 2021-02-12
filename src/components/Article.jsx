@@ -53,9 +53,9 @@ export default class Article extends Component {
     return (
       <main>
         {isLoading ? (
-          <p></p>
+          <p>loading...</p>
         ) : (
-          <section>
+          <>
             <Typography variant="h1" style={{ fontSize: 40 }}>
               {title}
             </Typography>
@@ -66,26 +66,22 @@ export default class Article extends Component {
               variant="h3"
               style={{ fontSize: 20 }}
             >{`author: ${author}, posted: ${articleTimestamp}, comments: ${comment_count}`}</Typography>
-            <IconButton>
+            <IconButton onClick={() => this.handleClick(1)}>
               <ArrowUpwardTwoToneIcon color="primary" />
             </IconButton>
-            <IconButton>
+            <IconButton onClick={() => this.handleClick(-1)}>
               <ArrowDownwardTwoToneIcon color="secondary" />
             </IconButton>
-            <button onClick={() => this.handleClick(1)}>upvote</button>
-            <Typography variant="h3">{votes + votesChange}</Typography>
-            <button onClick={() => this.handleClick(-1)}>downvote</button>
-            <p>{body}</p>
-          </section>
+            <Typography variant="h3">votes: {votes + votesChange}</Typography>
+            <Typography variant="body1">{body}</Typography>
+          </>
         )}
-        {isLoading ? (
-          <p>loading...</p>
-        ) : (
-          <section>
+        {!isLoading && (
+          <>
             {comments.map(comment => {
               return <Comment key={comment.comment_id} comment={comment} />;
             })}
-          </section>
+          </>
         )}
       </main>
     );

@@ -6,7 +6,7 @@ export default function ArticleCard({
   article: { title, topic, body, author, votes, comment_count, article_id }
 }) {
   return (
-    <div>
+    <>
       <Typography variant="h2" style={{ fontSize: 26 }}>
         {title}
       </Typography>
@@ -26,7 +26,6 @@ export default function ArticleCard({
       <Typography variant="body1">
         Author: {author}, Votes: {votes}, Comments: {comment_count}
       </Typography>
-      <p></p>
-    </div>
+    </>
   );
 }

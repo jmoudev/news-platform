@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import * as api from '../api';
 import * as utils from '../utils';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowUpwardTwoToneIcon from '@material-ui/icons/ArrowUpwardTwoTone';
+import ArrowDownwardTwoToneIcon from '@material-ui/icons/ArrowDownwardTwoTone';
 
 export default class Comment extends Component {
   state = {
@@ -15,14 +18,18 @@ export default class Comment extends Component {
     const commentTimestamp = utils.convertPSQLTimestamp(created_at);
 
     return (
-      <div>
+      <>
         <p>{body}</p>
         <p>{`author: ${author}, posted: ${commentTimestamp}, votes: ${
           votes + votesChange
         }`}</p>
-        <button onClick={() => this.handleClick(1)}>upvote</button>
-        <button onClick={() => this.handleClick(-1)}>downvote</button>
-      </div>
+        <IconButton onClick={() => this.handleClick(1)}>
+          <ArrowUpwardTwoToneIcon color="primary" />
+        </IconButton>
+        <IconButton onClick={() => this.handleClick(-1)}>
+          <ArrowDownwardTwoToneIcon color="secondary" />
+        </IconButton>
+      </>
     );
   }
 
@@ -37,4 +44,3 @@ export default class Comment extends Component {
     api.patchCommentVotes(comment_id, vote);
   }
 }
-  
