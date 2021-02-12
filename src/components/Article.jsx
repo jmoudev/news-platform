@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Comment from './Comment';
 import * as api from '../api';
 import * as utils from '../utils';
+import axios from 'axios';
 
 export default class Article extends Component {
   state = {
@@ -15,13 +16,13 @@ export default class Article extends Component {
   componentDidMount() {
     const { article_id } = this.props;
 
-    api
-      .getArticle(article_id)
-      .then(article => {
-        api.getArticleComments(article_id).then(comments => {
+    axios
+      .all([api.getArticle(article_id), api.getArticleComments(article_id)])
+      .then(
+        axios.spread((article, comments) => {
           this.setState({ article, comments, isLoading: false });
-        });
-      })
+        })
+      )
       .catch(({ request: { status, statusText } }) => {
         this.setState({ errorMsg: `Error ${status}: ${statusText}` });
       });
@@ -40,7 +41,7 @@ export default class Article extends Component {
     const { comments, votesChange, isLoading, errorMsg } = this.state;
     let articleTimestamp;
 
-    if (isLoading) {
+    if (!isLoading) {
       articleTimestamp = utils.convertPSQLTimestamp(created_at);
     }
     if (errorMsg) return <h2>{errorMsg}</h2>;

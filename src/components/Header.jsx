@@ -1,9 +1,10 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 
 export default function Header() {
   return (
     <header className="title">
-      <h1>News Platform</h1>
+      <Typography variant="h1">News Platform</Typography>
     </header>
   );
 }

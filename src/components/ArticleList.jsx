@@ -16,7 +16,6 @@ export default class ArticleList extends Component {
     });
   }
 
-  // genre is updated in state by router props
   componentDidUpdate(prevProps) {
     const { topic } = this.props;
 

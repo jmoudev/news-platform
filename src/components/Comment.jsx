@@ -37,3 +37,4 @@ export default class Comment extends Component {
     api.patchCommentVotes(comment_id, vote);
   }
 }
+  
