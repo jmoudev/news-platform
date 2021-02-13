@@ -9,7 +9,13 @@ export default class NavBar extends Component {
   state = {
     topics: [],
     isLoading: true,
-    primary: 'all'
+    primary: window.location.href.match(
+      /^http:\/\/localhost:3000\/topics\/(\w+)$/
+    )
+      ? window.location.href.match(
+          /^http:\/\/localhost:3000\/topics\/(\w+)$/
+        )[1]
+      : 'all'
   };
 
   componentDidMount() {
@@ -21,13 +27,15 @@ export default class NavBar extends Component {
   render() {
     const { topics, isLoading, primary } = this.state;
 
+    console.log(primary);
+
     return isLoading ? (
       <p>loading...</p>
     ) : (
-      <Container>
+      <Container className="test">
         <Breadcrumbs
           aria-label="breadcrumb"
-          style={{ display: 'flex', justifyContent: 'center' }}
+          style={{ display: 'flex', justifyContent: 'center', width: '100%' }}
         >
           <Link href="/">
             <Typography
@@ -58,9 +66,11 @@ export default class NavBar extends Component {
     );
   }
 
-  handleClick = event => {
-    event.preventDefault();
-
-    this.setState({ primary: event.target.firstChild.data.toLowerCase() });
+  handleClick = ({
+    target: {
+      firstChild: { data }
+    }
+  }) => {
+    this.setState({ primary: data.toLowerCase() });
   };
 }

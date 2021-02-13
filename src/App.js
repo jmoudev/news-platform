@@ -9,8 +9,10 @@ import { Router } from '@reach/router';
 function App() {
   return (
     <div className="App">
-      <Header />
-      <NavBar />
+      <header>
+        <Header />
+        <NavBar />
+      </header>
       <Router>
         <ArticleList path="/" />
         <ArticleList path="topics/:topic" />

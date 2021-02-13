@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ArticleCard from './ArticleCard';
 import * as api from '../api';
+import Grid from '@material-ui/core/Grid';
 
 export default class ArticleList extends Component {
   state = {
@@ -34,15 +35,17 @@ export default class ArticleList extends Component {
         {isLoading ? (
           <p>loading...</p>
         ) : (
-          articles.map(article => {
-            return (
-              <ArticleCard
-                className="article"
-                key={article.article_id}
-                article={article}
-              />
-            );
-          })
+          <Grid container justify="center" spacing={3}>
+            {articles.map(article => {
+              return (
+                <ArticleCard
+                  className="article"
+                  key={article.article_id}
+                  article={article}
+                />
+              );
+            })}
+          </Grid>
         )}
       </main>
     );

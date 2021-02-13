@@ -3,10 +3,10 @@ import Typography from '@material-ui/core/Typography';
 
 export default function Header() {
   return (
-    <header className="title">
-      <Typography variant="h1" style={{ fontSize: 50 }}>
+    <>
+      <Typography variant="h1" style={{ fontSize: 30 }}>
         News Platform
       </Typography>
-    </header>
+    </>
   );
 }
